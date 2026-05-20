@@ -2,6 +2,37 @@
     "metadata": {
         "stats_format_version": "0.3.0",
         "mlagents_version": "1.1.0",
-        "torch_version": "2.11.0+cpu"
+        "torch_version": "2.2.2+cpu"
+    },
+    "SpaceCleaner": {
+        "checkpoints": [
+            {
+                "steps": 499957,
+                "file_path": "results\\space_cleaner_v1\\SpaceCleaner\\SpaceCleaner-499957.onnx",
+                "reward": null,
+                "creation_time": 1776630355.284901,
+                "auxillary_file_paths": [
+                    "results\\space_cleaner_v1\\SpaceCleaner\\SpaceCleaner-499957.pt"
+                ]
+            },
+            {
+                "steps": 501109,
+                "file_path": "results\\space_cleaner_v1\\SpaceCleaner\\SpaceCleaner-501109.onnx",
+                "reward": null,
+                "creation_time": 1776630361.1520517,
+                "auxillary_file_paths": [
+                    "results\\space_cleaner_v1\\SpaceCleaner\\SpaceCleaner-501109.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 501109,
+            "file_path": "results\\space_cleaner_v1\\SpaceCleaner.onnx",
+            "reward": null,
+            "creation_time": 1776630361.1520517,
+            "auxillary_file_paths": [
+                "results\\space_cleaner_v1\\SpaceCleaner\\SpaceCleaner-501109.pt"
+            ]
+        }
     }
 }
