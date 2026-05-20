@@ -1,3 +1,54 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Unity auto-generated asset folders
+Assets/AssetStoreTools*
+
+# Unity crash and profiler output
+sysinfo.txt
+*.stackdump
+
+# Local Unity MCP bridge/cache files
+[Ll]ibrary/[Mm][Cc][Pp][Ff]or[Uu]nity/
+[Ll]ibrary/[Pp]ackage[Cc]ache/com.coplaydev.unity-mcp@*/
+.mcp/
+.mcp.json
+mcp.json
+
+# Unity/Visual Studio generated project files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# IDE/editor caches
+.vs/
+.idea/
+.vscode/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
