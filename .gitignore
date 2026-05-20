@@ -341,3 +341,6 @@ tensorboard_event_backups/
 # Tools
 tools/
 generate_space_debris_assets.py
+Space Cleaning Sim2 v2 ONNX training bundle/
+ARCHITECTURE.md
+a.py
