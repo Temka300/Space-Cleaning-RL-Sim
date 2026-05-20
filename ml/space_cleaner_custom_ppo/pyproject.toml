@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "space-cleaner-custom-ppo"
+version = "0.1.0"
+description = "Custom PPO trainer plugin for Space Cleaning Sim 2."
+requires-python = ">=3.10"
+dependencies = ["mlagents==1.1.0"]
+
+[project.entry-points."mlagents.trainer_type"]
+spacecleaner_ppo = "space_cleaner_custom_ppo.trainer:get_type_and_setting"
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.packages.find]
+where = ["src"]

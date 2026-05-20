@@ -16,6 +16,20 @@ Assets/AssetStoreTools*
 top-down-spaceship-master/
 top-down-space-master/
 
+# Claude local files
+CLAUDE.md
+Claude.md
+claude.md
+.claude/
+.claude.json
+claude*.json
+Claude*.json
+claude*.log
+Claude*.log
+
+# Thesis drafts
+[Tt]hesis/
+
 # Screenshots and screen captures
 [Ss]creenshots/
 [Ss]creenshots.meta
