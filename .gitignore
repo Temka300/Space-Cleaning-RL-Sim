@@ -334,3 +334,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Tensorboard_event_backups
+tensorboard_event_backups/
