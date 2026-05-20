@@ -337,3 +337,7 @@ __marimo__/
 
 # Tensorboard_event_backups
 tensorboard_event_backups/
+
+# Tools
+tools/
+generate_space_debris_assets.py

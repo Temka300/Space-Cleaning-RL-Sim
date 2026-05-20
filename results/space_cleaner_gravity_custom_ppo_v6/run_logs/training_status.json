@@ -1,0 +1,32 @@
+{
+    "difficulty_level": {
+        "lesson_num": 0
+    },
+    "SpaceCleaner": {
+        "checkpoints": [
+            {
+                "steps": 110503,
+                "file_path": "results\\space_cleaner_gravity_custom_ppo_v6\\SpaceCleaner\\SpaceCleaner-110503.onnx",
+                "reward": -2.039547389686698,
+                "creation_time": 1777487622.8996894,
+                "auxillary_file_paths": [
+                    "results\\space_cleaner_gravity_custom_ppo_v6\\SpaceCleaner\\SpaceCleaner-110503.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 110503,
+            "file_path": "results\\space_cleaner_gravity_custom_ppo_v6\\SpaceCleaner.onnx",
+            "reward": -2.039547389686698,
+            "creation_time": 1777487622.8996894,
+            "auxillary_file_paths": [
+                "results\\space_cleaner_gravity_custom_ppo_v6\\SpaceCleaner\\SpaceCleaner-110503.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cpu"
+    }
+}
