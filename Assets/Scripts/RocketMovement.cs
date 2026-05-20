@@ -32,6 +32,7 @@ public class RocketMovement : MonoBehaviour
     private float turnInput;
     private Vector3 directionInput;
     private bool useDirectionInput;
+    private Vector3 externalAcceleration;
 
     public float ThrustInput => thrustInput;
     public float TurnInput => turnInput;
@@ -42,6 +43,11 @@ public class RocketMovement : MonoBehaviour
         rb != null ? rb.velocity : Vector3.zero;
 #endif
     public Vector3 AngularVelocity => rb != null ? rb.angularVelocity : Vector3.zero;
+
+    public void SetExternalAcceleration(Vector3 accel)
+    {
+        externalAcceleration = accel;
+    }
 
     void Awake()
     {
@@ -114,6 +120,13 @@ public class RocketMovement : MonoBehaviour
         rb.AddForce(transform.forward * thrustOut * thrustForce, ForceMode.Acceleration);
         rb.AddTorque(Vector3.up * torqueOut * turnTorque, ForceMode.Acceleration);
 
+#if UNITY_6000_0_OR_NEWER
+        rb.linearVelocity += externalAcceleration * Time.fixedDeltaTime;
+#else
+        rb.velocity += externalAcceleration * Time.fixedDeltaTime;
+#endif
+        externalAcceleration = Vector3.zero;
+
         if (rb.angularVelocity.magnitude > maxAngularSpeed)
             rb.angularVelocity = rb.angularVelocity.normalized * maxAngularSpeed;
 
@@ -160,5 +173,6 @@ public class RocketMovement : MonoBehaviour
         turnInput = 0f;
         directionInput = Vector3.zero;
         useDirectionInput = false;
+        externalAcceleration = Vector3.zero;
     }
 }
