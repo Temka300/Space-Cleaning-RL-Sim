@@ -1,0 +1,65 @@
+{
+    "SpaceCleaner": {
+        "checkpoints": [
+            {
+                "steps": 1499864,
+                "file_path": "results\\training_v1\\SpaceCleaner\\SpaceCleaner-1499864.onnx",
+                "reward": 2.7541282180696727,
+                "creation_time": 1776681262.462235,
+                "auxillary_file_paths": [
+                    "results\\training_v1\\SpaceCleaner\\SpaceCleaner-1499864.pt"
+                ]
+            },
+            {
+                "steps": 1999978,
+                "file_path": "results\\training_v1\\SpaceCleaner\\SpaceCleaner-1999978.onnx",
+                "reward": null,
+                "creation_time": 1776683641.1817582,
+                "auxillary_file_paths": [
+                    "results\\training_v1\\SpaceCleaner\\SpaceCleaner-1999978.pt"
+                ]
+            },
+            {
+                "steps": 2499898,
+                "file_path": "results\\training_v1\\SpaceCleaner\\SpaceCleaner-2499898.onnx",
+                "reward": 2.5434233605861665,
+                "creation_time": 1776686011.05288,
+                "auxillary_file_paths": [
+                    "results\\training_v1\\SpaceCleaner\\SpaceCleaner-2499898.pt"
+                ]
+            },
+            {
+                "steps": 2999845,
+                "file_path": "results\\training_v1\\SpaceCleaner\\SpaceCleaner-2999845.onnx",
+                "reward": 2.7645064948592335,
+                "creation_time": 1776688383.0649226,
+                "auxillary_file_paths": [
+                    "results\\training_v1\\SpaceCleaner\\SpaceCleaner-2999845.pt"
+                ]
+            },
+            {
+                "steps": 3000101,
+                "file_path": "results\\training_v1\\SpaceCleaner\\SpaceCleaner-3000101.onnx",
+                "reward": 2.7645064948592335,
+                "creation_time": 1776688383.1583438,
+                "auxillary_file_paths": [
+                    "results\\training_v1\\SpaceCleaner\\SpaceCleaner-3000101.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3000101,
+            "file_path": "results\\training_v1\\SpaceCleaner.onnx",
+            "reward": 2.7645064948592335,
+            "creation_time": 1776688383.1583438,
+            "auxillary_file_paths": [
+                "results\\training_v1\\SpaceCleaner\\SpaceCleaner-3000101.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cpu"
+    }
+}
