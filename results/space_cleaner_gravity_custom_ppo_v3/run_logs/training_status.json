@@ -1,0 +1,50 @@
+{
+    "difficulty_level": {
+        "lesson_num": 0
+    },
+    "SpaceCleaner": {
+        "checkpoints": [
+            {
+                "steps": 249758,
+                "file_path": "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-249758.onnx",
+                "reward": -5.446555197238922,
+                "creation_time": 1777300274.4519002,
+                "auxillary_file_paths": [
+                    "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-249758.pt"
+                ]
+            },
+            {
+                "steps": 499963,
+                "file_path": "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-499963.onnx",
+                "reward": -0.5717315720073108,
+                "creation_time": 1777301951.8298957,
+                "auxillary_file_paths": [
+                    "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-499963.pt"
+                ]
+            },
+            {
+                "steps": 674631,
+                "file_path": "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-674631.onnx",
+                "reward": -0.4562098075236593,
+                "creation_time": 1777303207.9364934,
+                "auxillary_file_paths": [
+                    "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-674631.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 674631,
+            "file_path": "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner.onnx",
+            "reward": -0.4562098075236593,
+            "creation_time": 1777303207.9364934,
+            "auxillary_file_paths": [
+                "results\\space_cleaner_gravity_custom_ppo_v3\\SpaceCleaner\\SpaceCleaner-674631.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cpu"
+    }
+}

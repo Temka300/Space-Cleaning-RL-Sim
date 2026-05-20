@@ -1,0 +1,971 @@
+{
+    "name": "root",
+    "gauges": {
+        "SpaceCleaner.Policy.Entropy.mean": {
+            "value": 1.388763666152954,
+            "min": 1.388763666152954,
+            "max": 1.425979733467102,
+            "count": 500
+        },
+        "SpaceCleaner.Policy.Entropy.sum": {
+            "value": 13597.384765625,
+            "min": 13195.2626953125,
+            "max": 15018.53125,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.DebrisCount.mean": {
+            "value": 12.0,
+            "min": 1.0,
+            "max": 12.0,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.DebrisCount.sum": {
+            "value": 12.0,
+            "min": 1.0,
+            "max": 12.0,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.DriftingRatio.mean": {
+            "value": 0.0990000069141388,
+            "min": 0.0,
+            "max": 0.0990000069141388,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.DriftingRatio.sum": {
+            "value": 0.0990000069141388,
+            "min": 0.0,
+            "max": 0.0990000069141388,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.ArenaWidth.mean": {
+            "value": 82.87479400634766,
+            "min": 82.87479400634766,
+            "max": 82.87479400634766,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.ArenaWidth.sum": {
+            "value": 82.87479400634766,
+            "min": 82.87479400634766,
+            "max": 82.87479400634766,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.ArenaDepth.mean": {
+            "value": 46.0,
+            "min": 46.0,
+            "max": 46.0,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.ArenaDepth.sum": {
+            "value": 46.0,
+            "min": 46.0,
+            "max": 46.0,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.TimePenalty.mean": {
+            "value": -0.0005000000237487257,
+            "min": -0.0005000000237487257,
+            "max": -0.0005000000237487257,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.TimePenalty.sum": {
+            "value": -4.895500232523773,
+            "min": -5.322500252805185,
+            "max": -4.658500221266877,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.Progress.mean": {
+            "value": 0.0009909273538242485,
+            "min": -0.0028569572329401184,
+            "max": 0.002789129181292049,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.Progress.sum": {
+            "value": 9.702169721293217,
+            "min": -28.361014451396557,
+            "max": 27.27768339303624,
+            "count": 500
+        },
+        "SpaceCleaner.Target.ProgressDelta.mean": {
+            "value": 0.019818546725493165,
+            "min": -0.05713914371850544,
+            "max": 0.055782582520951036,
+            "count": 500
+        },
+        "SpaceCleaner.Target.ProgressDelta.sum": {
+            "value": 194.0433909893036,
+            "min": -567.2202796936035,
+            "max": 545.5536570549011,
+            "count": 500
+        },
+        "SpaceCleaner.Target.FacingDot.mean": {
+            "value": 0.5993364501053775,
+            "min": -0.25787191191960546,
+            "max": 0.8650221898130117,
+            "count": 500
+        },
+        "SpaceCleaner.Target.FacingDot.sum": {
+            "value": 5868.103182981751,
+            "min": -2603.216950828417,
+            "max": 8581.020122945076,
+            "count": 500
+        },
+        "SpaceCleaner.Target.ClosingSpeed.mean": {
+            "value": 0.9731281213341054,
+            "min": -2.871003695506046,
+            "max": 2.7681683927971608,
+            "count": 500
+        },
+        "SpaceCleaner.Target.ClosingSpeed.sum": {
+            "value": 9527.897435982226,
+            "min": -28500.453685288518,
+            "max": 27072.686881556234,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.LateralSpeedPenalty.mean": {
+            "value": -0.0009291698758984127,
+            "min": -0.0014690446043995565,
+            "max": -0.0007334203565718078,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.LateralSpeedPenalty.sum": {
+            "value": -9.097502254921359,
+            "min": -14.666941330325173,
+            "max": -7.2601281097043255,
+            "count": 500
+        },
+        "SpaceCleaner.Target.LateralSpeed.mean": {
+            "value": 3.717420839379892,
+            "min": 2.9340394298187302,
+            "max": 5.877099091300459,
+            "count": 500
+        },
+        "SpaceCleaner.Target.LateralSpeed.sum": {
+            "value": 36397.26743836852,
+            "min": 29044.05631577561,
+            "max": 58676.95732754379,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.StraightApproach.mean": {
+            "value": 0.000968785958065189,
+            "min": 0.0001316746404022062,
+            "max": 0.0018615638986508262,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.StraightApproach.sum": {
+            "value": 9.485383315416266,
+            "min": 1.2806675525518574,
+            "max": 18.738502203819216,
+            "count": 500
+        },
+        "SpaceCleaner.Target.StraightApproach.mean": {
+            "value": 0.1614643249316986,
+            "min": 0.021945773215045178,
+            "max": 0.31026064724553437,
+            "count": 500
+        },
+        "SpaceCleaner.Target.StraightApproach.sum": {
+            "value": 1580.897205406261,
+            "min": 213.4445902895294,
+            "max": 3123.0836751735487,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.IdlePenalty.mean": {
+            "value": -0.0020000000949949026,
+            "min": -0.0020000000949949026,
+            "max": -0.0020000000949949026,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.IdlePenalty.sum": {
+            "value": -0.03000000142492354,
+            "min": -0.20000000949949026,
+            "max": -0.010000000474974513,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.IdleSteps.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.IdleSteps.sum": {
+            "value": 15.0,
+            "min": 5.0,
+            "max": 100.0,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.LessonNumber.difficulty_level.mean": {
+            "value": 2.0,
+            "min": 0.0,
+            "max": 2.0,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.LessonNumber.difficulty_level.sum": {
+            "value": 2.0,
+            "min": 0.0,
+            "max": 2.0,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.SpinPenalty.mean": {
+            "value": -0.0033547903391451537,
+            "min": -0.0034604860379838518,
+            "max": -0.00226613716359545,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.SpinPenalty.sum": {
+            "value": -26.170719435671344,
+            "min": -28.0975695369998,
+            "max": -13.904884852585383,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.SpinPenaltyEvents.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.SpinPenaltyEvents.sum": {
+            "value": 7801.0,
+            "min": 6102.0,
+            "max": 8493.0,
+            "count": 500
+        },
+        "SpaceCleaner.Action.Thrust.mean": {
+            "value": 0.5820609445755298,
+            "min": 0.4788938557320938,
+            "max": 0.6150719008384606,
+            "count": 500
+        },
+        "SpaceCleaner.Action.Thrust.sum": {
+            "value": 227.00376838445663,
+            "min": 181.17732971906662,
+            "max": 250.1582528948784,
+            "count": 500
+        },
+        "SpaceCleaner.Action.Rotation.mean": {
+            "value": 0.030213567037851764,
+            "min": -0.07684843804915424,
+            "max": 0.09067003163591385,
+            "count": 500
+        },
+        "SpaceCleaner.Action.Rotation.sum": {
+            "value": 11.783291144762188,
+            "min": -30.66252678161254,
+            "max": 35.905332527821884,
+            "count": 500
+        },
+        "SpaceCleaner.Action.AbsRotation.mean": {
+            "value": 0.33646138707438533,
+            "min": 0.24536130184896476,
+            "max": 0.3713394386042619,
+            "count": 500
+        },
+        "SpaceCleaner.Action.AbsRotation.sum": {
+            "value": 131.21994095901027,
+            "min": 93.72801730630454,
+            "max": 146.30773881007917,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.Speed.mean": {
+            "value": 6.091556330445485,
+            "min": 5.75119354162771,
+            "max": 7.5926341298800795,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.Speed.sum": {
+            "value": 2375.7069688737392,
+            "min": 2271.246862977743,
+            "max": 3052.238920211792,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.AngularSpeed.mean": {
+            "value": 1.3603529498404943,
+            "min": 0.7823120365724803,
+            "max": 1.4453184635396104,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.AngularSpeed.sum": {
+            "value": 530.5376504377928,
+            "min": 298.84319797068747,
+            "max": 577.9724315200001,
+            "count": 500
+        },
+        "SpaceCleaner.Debris.Remaining.mean": {
+            "value": 9.81021897810219,
+            "min": 0.9672544080604534,
+            "max": 11.054320987654322,
+            "count": 500
+        },
+        "SpaceCleaner.Debris.Remaining.sum": {
+            "value": 4032.0,
+            "min": 366.0,
+            "max": 4585.0,
+            "count": 500
+        },
+        "SpaceCleaner.Debris.RemainingRatio.mean": {
+            "value": 0.8202991442802625,
+            "min": 0.5275949435898021,
+            "max": 1.0,
+            "count": 500
+        },
+        "SpaceCleaner.Debris.RemainingRatio.sum": {
+            "value": 319.91666626930237,
+            "min": 208.4000027179718,
+            "max": 417.0,
+            "count": 500
+        },
+        "SpaceCleaner.Target.NearestDebrisDistance.mean": {
+            "value": 7.930576206934758,
+            "min": 6.566142780996447,
+            "max": 29.56045632665752,
+            "count": 500
+        },
+        "SpaceCleaner.Target.NearestDebrisDistance.sum": {
+            "value": 3092.9247207045555,
+            "min": 2613.324826836586,
+            "max": 11762.01624238491,
+            "count": 500
+        },
+        "SpaceCleaner.Gravity.NetMagnitude.mean": {
+            "value": 0.25038403164690887,
+            "min": 0.042472617183294564,
+            "max": 0.6198372757415983,
+            "count": 500
+        },
+        "SpaceCleaner.Gravity.NetMagnitude.sum": {
+            "value": 97.64977234229445,
+            "min": 16.819156404584646,
+            "max": 244.83572391793132,
+            "count": 500
+        },
+        "SpaceCleaner.Gravity.StrongestPull.mean": {
+            "value": 0.30326016255370947,
+            "min": 0.15573292967208005,
+            "max": 0.7117317555753817,
+            "count": 500
+        },
+        "SpaceCleaner.Gravity.StrongestPull.sum": {
+            "value": 97.64977234229445,
+            "min": 16.819156404584646,
+            "max": 244.83572391793132,
+            "count": 500
+        },
+        "SpaceCleaner.Gravity.StrongestDistance.mean": {
+            "value": 17.095794777692475,
+            "min": 13.513489421409897,
+            "max": 21.624983677157648,
+            "count": 500
+        },
+        "SpaceCleaner.Gravity.StrongestDistance.sum": {
+            "value": 5504.845918416977,
+            "min": 2335.498237133026,
+            "max": 6740.287443637848,
+            "count": 500
+        },
+        "SpaceCleaner.Step.mean": {
+            "value": 4999776.0,
+            "min": 9906.0,
+            "max": 4999776.0,
+            "count": 500
+        },
+        "SpaceCleaner.Step.sum": {
+            "value": 4999776.0,
+            "min": 9906.0,
+            "max": 4999776.0,
+            "count": 500
+        },
+        "SpaceCleaner.Policy.ExtrinsicValueEstimate.mean": {
+            "value": -0.00046044006012380123,
+            "min": -0.7291964292526245,
+            "max": 2.0606441497802734,
+            "count": 500
+        },
+        "SpaceCleaner.Policy.ExtrinsicValueEstimate.sum": {
+            "value": -0.018878042697906494,
+            "min": -39.37660598754883,
+            "max": 84.48641204833984,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.WallProximity.mean": {
+            "value": -0.000865256225272384,
+            "min": -0.0024658452471146945,
+            "max": -0.00036158920481468507,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.WallProximity.sum": {
+            "value": -1.0668609257608495,
+            "min": -5.165492764142336,
+            "max": -0.07593373301108386,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.VelocityTowardWall.mean": {
+            "value": 0.299050953006183,
+            "min": 0.011890071916633186,
+            "max": 6.487171701735615,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.VelocityTowardWall.sum": {
+            "value": 368.72982505662367,
+            "min": 6.22586608864367,
+            "max": 12072.62653692998,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.MinWallDistance.mean": {
+            "value": 3.701133839405366,
+            "min": 2.6029395424858643,
+            "max": 4.798661791483561,
+            "count": 500
+        },
+        "SpaceCleaner.Movement.MinWallDistance.sum": {
+            "value": 4563.498023986816,
+            "min": 471.1320571899414,
+            "max": 10605.718099594116,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.EpisodeLength.mean": {
+            "value": 1502.6666666666667,
+            "min": 208.0212765957447,
+            "max": 2999.0,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.EpisodeLength.sum": {
+            "value": 9016.0,
+            "min": 7052.0,
+            "max": 13067.0,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.WallPenalty.mean": {
+            "value": -2.0,
+            "min": -2.0,
+            "max": -2.0,
+            "count": 478
+        },
+        "SpaceCleaner.Rewards.WallPenalty.sum": {
+            "value": -4.0,
+            "min": -90.0,
+            "max": -2.0,
+            "count": 478
+        },
+        "SpaceCleaner.Episode.Finished.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.Finished.sum": {
+            "value": 4.0,
+            "min": 2.0,
+            "max": 47.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.ClearRate.mean": {
+            "value": 0.0,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.ClearRate.sum": {
+            "value": 0.0,
+            "min": 0.0,
+            "max": 12.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.WallHitRate.mean": {
+            "value": 0.5,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.WallHitRate.sum": {
+            "value": 2.0,
+            "min": 0.0,
+            "max": 45.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.PlanetHitRate.mean": {
+            "value": 0.5,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.PlanetHitRate.sum": {
+            "value": 2.0,
+            "min": 0.0,
+            "max": 9.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.Steps.mean": {
+            "value": 755.5,
+            "min": 209.0212765957447,
+            "max": 2413.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.Steps.sum": {
+            "value": 3022.0,
+            "min": 798.0,
+            "max": 13079.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.StepRatio.mean": {
+            "value": 0.2518333373591304,
+            "min": 0.06967375879275038,
+            "max": 0.8043333441019058,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.StepRatio.sum": {
+            "value": 1.0073333494365215,
+            "min": 0.26600000262260437,
+            "max": 4.359666667878628,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.IdleSteps.mean": {
+            "value": 1.75,
+            "min": 1.0,
+            "max": 4.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.IdleSteps.sum": {
+            "value": 7.0,
+            "min": 3.0,
+            "max": 98.0,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.IdleStepRatio.mean": {
+            "value": 0.005761307285865769,
+            "min": 0.0006326926886686124,
+            "max": 0.01497489944033857,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.IdleStepRatio.sum": {
+            "value": 0.023045229143463075,
+            "min": 0.0020744854118674994,
+            "max": 0.494421664159745,
+            "count": 499
+        },
+        "SpaceCleaner.Debris.CollectedPerEpisode.mean": {
+            "value": 1.5,
+            "min": 0.0,
+            "max": 7.666666666666667,
+            "count": 499
+        },
+        "SpaceCleaner.Debris.CollectedPerEpisode.sum": {
+            "value": 6.0,
+            "min": 0.0,
+            "max": 33.0,
+            "count": 499
+        },
+        "SpaceCleaner.Debris.RemainingAtEnd.mean": {
+            "value": 10.5,
+            "min": 0.0,
+            "max": 11.0,
+            "count": 499
+        },
+        "SpaceCleaner.Debris.RemainingAtEnd.sum": {
+            "value": 42.0,
+            "min": 0.0,
+            "max": 128.0,
+            "count": 499
+        },
+        "SpaceCleaner.Debris.CollectedRatio.mean": {
+            "value": 0.12500000186264515,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 499
+        },
+        "SpaceCleaner.Debris.CollectedRatio.sum": {
+            "value": 0.5000000074505806,
+            "min": 0.0,
+            "max": 12.0,
+            "count": 499
+        },
+        "SpaceCleaner.Target.ClosestDistanceEpisode.mean": {
+            "value": 0.6915947943925858,
+            "min": 0.617025226354599,
+            "max": 21.550789036649338,
+            "count": 499
+        },
+        "SpaceCleaner.Target.ClosestDistanceEpisode.sum": {
+            "value": 2.766379177570343,
+            "min": 1.234050452709198,
+            "max": 1012.8870847225189,
+            "count": 499
+        },
+        "SpaceCleaner.Episode.WallHit.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 478
+        },
+        "SpaceCleaner.Episode.WallHit.sum": {
+            "value": 2.0,
+            "min": 1.0,
+            "max": 45.0,
+            "count": 478
+        },
+        "SpaceCleaner.Environment.CumulativeReward.mean": {
+            "value": -0.26573431491851807,
+            "min": -7.11727446988225,
+            "max": 9.386052142828703,
+            "count": 500
+        },
+        "SpaceCleaner.Environment.CumulativeReward.sum": {
+            "value": -1.5944058895111084,
+            "min": -151.10704563558102,
+            "max": 62.060514122247696,
+            "count": 500
+        },
+        "SpaceCleaner.Policy.ExtrinsicReward.mean": {
+            "value": -0.26573431491851807,
+            "min": -7.11727446988225,
+            "max": 9.386052142828703,
+            "count": 500
+        },
+        "SpaceCleaner.Policy.ExtrinsicReward.sum": {
+            "value": -1.5944058895111084,
+            "min": -151.10704563558102,
+            "max": 62.060514122247696,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.Collect.mean": {
+            "value": 1.5,
+            "min": 1.5,
+            "max": 1.5,
+            "count": 485
+        },
+        "SpaceCleaner.Rewards.Collect.sum": {
+            "value": 31.5,
+            "min": 1.5,
+            "max": 52.5,
+            "count": 485
+        },
+        "SpaceCleaner.Debris.Collected.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 485
+        },
+        "SpaceCleaner.Debris.Collected.sum": {
+            "value": 21.0,
+            "min": 1.0,
+            "max": 35.0,
+            "count": 485
+        },
+        "SpaceCleaner.Rewards.ClearBonus.mean": {
+            "value": 5.0,
+            "min": 5.0,
+            "max": 5.0,
+            "count": 185
+        },
+        "SpaceCleaner.Rewards.ClearBonus.sum": {
+            "value": 5.0,
+            "min": 5.0,
+            "max": 60.0,
+            "count": 185
+        },
+        "SpaceCleaner.Episode.ClearedAllDebris.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 185
+        },
+        "SpaceCleaner.Episode.ClearedAllDebris.sum": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 12.0,
+            "count": 185
+        },
+        "SpaceCleaner.IsTraining.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 500
+        },
+        "SpaceCleaner.IsTraining.sum": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 500
+        },
+        "SpaceCleaner.Rewards.PlanetPenalty.mean": {
+            "value": -1.5,
+            "min": -1.5,
+            "max": -1.5,
+            "count": 457
+        },
+        "SpaceCleaner.Rewards.PlanetPenalty.sum": {
+            "value": -3.0,
+            "min": -13.5,
+            "max": -1.5,
+            "count": 457
+        },
+        "SpaceCleaner.Episode.PlanetHit.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 457
+        },
+        "SpaceCleaner.Episode.PlanetHit.sum": {
+            "value": 2.0,
+            "min": 1.0,
+            "max": 9.0,
+            "count": 457
+        },
+        "SpaceCleaner.Losses.PolicyLoss.mean": {
+            "value": 0.08927820552344201,
+            "min": 0.062064443725527475,
+            "max": 0.12560808868132275,
+            "count": 155
+        },
+        "SpaceCleaner.Losses.PolicyLoss.sum": {
+            "value": 0.08927820552344201,
+            "min": 0.062064443725527475,
+            "max": 0.12560808868132275,
+            "count": 155
+        },
+        "SpaceCleaner.Losses.ValueLoss.mean": {
+            "value": 0.05820230798174938,
+            "min": 0.02895337059938659,
+            "max": 0.3362806513905525,
+            "count": 155
+        },
+        "SpaceCleaner.Losses.ValueLoss.sum": {
+            "value": 0.05820230798174938,
+            "min": 0.02895337059938659,
+            "max": 0.3362806513905525,
+            "count": 155
+        },
+        "SpaceCleaner.Losses.ActionSmoothness.mean": {
+            "value": 1.9658275643984477,
+            "min": 1.9144798542062442,
+            "max": 2.074978950122992,
+            "count": 155
+        },
+        "SpaceCleaner.Losses.ActionSmoothness.sum": {
+            "value": 1.9658275643984477,
+            "min": 1.9144798542062442,
+            "max": 2.074978950122992,
+            "count": 155
+        },
+        "SpaceCleaner.Policy.LearningRate.mean": {
+            "value": 1.0941495623800131e-06,
+            "min": 1.0941495623800131e-06,
+            "max": 0.00024853285058686,
+            "count": 155
+        },
+        "SpaceCleaner.Policy.LearningRate.sum": {
+            "value": 1.0941495623800131e-06,
+            "min": 1.0941495623800131e-06,
+            "max": 0.00024853285058686,
+            "count": 155
+        },
+        "SpaceCleaner.Policy.Epsilon.mean": {
+            "value": 0.10021881,
+            "min": 0.10021881,
+            "max": 0.14970656999999998,
+            "count": 155
+        },
+        "SpaceCleaner.Policy.Epsilon.sum": {
+            "value": 0.10021881,
+            "min": 0.10021881,
+            "max": 0.14970656999999998,
+            "count": 155
+        },
+        "SpaceCleaner.Policy.Beta.mean": {
+            "value": 4.277773800000039e-05,
+            "min": 4.277773800000039e-05,
+            "max": 0.0074560441859999995,
+            "count": 155
+        },
+        "SpaceCleaner.Policy.Beta.sum": {
+            "value": 4.277773800000039e-05,
+            "min": 4.277773800000039e-05,
+            "max": 0.0074560441859999995,
+            "count": 155
+        }
+    },
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1777307042",
+        "python_version": "3.10.12 (main, Jul 26 2023, 12:00:51) [MSC v.1929 64 bit (AMD64)]",
+        "command_line_arguments": "E:\\Storage\\Coding\\Unity\\Space Cleaning Sim2\\tools\\run_space_cleaner_custom_ppo.py E:\\Storage\\Coding\\Unity\\Space Cleaning Sim2\\config\\space_cleaner_custom_ppo.yaml --run-id=space_cleaner_gravity_custom_ppo_v3_1",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1777348293"
+    },
+    "total": 41250.9913498,
+    "count": 1,
+    "self": 0.02424520000204211,
+    "children": {
+        "run_training.setup": {
+            "total": 0.24880789999951958,
+            "count": 1,
+            "self": 0.24880789999951958
+        },
+        "TrainerController.start_learning": {
+            "total": 41250.7182967,
+            "count": 1,
+            "self": 735.1484280034565,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 28.03668900000048,
+                    "count": 1,
+                    "self": 28.03668900000048
+                },
+                "TrainerController.advance": {
+                    "total": 40487.30919139654,
+                    "count": 5000039,
+                    "self": 190.91045409063372,
+                    "children": {
+                        "env_step": {
+                            "total": 40296.398737305906,
+                            "count": 5000039,
+                            "self": 28543.515824211157,
+                            "children": {
+                                "SubprocessEnvManager._take_step": {
+                                    "total": 11651.315561903943,
+                                    "count": 5000039,
+                                    "self": 605.9177017055263,
+                                    "children": {
+                                        "TorchPolicy.evaluate": {
+                                            "total": 11045.397860198416,
+                                            "count": 5000039,
+                                            "self": 11045.397860198416
+                                        }
+                                    }
+                                },
+                                "workers": {
+                                    "total": 101.56735119080622,
+                                    "count": 5000039,
+                                    "self": 0.0,
+                                    "children": {
+                                        "worker_root": {
+                                            "total": 40976.64694740147,
+                                            "count": 5000039,
+                                            "is_parallel": true,
+                                            "self": 21291.80490479914,
+                                            "children": {
+                                                "steps_from_proto": {
+                                                    "total": 0.000534999999217689,
+                                                    "count": 1,
+                                                    "is_parallel": true,
+                                                    "self": 0.00016170000162674114,
+                                                    "children": {
+                                                        "_process_rank_one_or_two_observation": {
+                                                            "total": 0.0003732999975909479,
+                                                            "count": 4,
+                                                            "is_parallel": true,
+                                                            "self": 0.0003732999975909479
+                                                        }
+                                                    }
+                                                },
+                                                "UnityEnvironment.step": {
+                                                    "total": 19684.841507602327,
+                                                    "count": 5000039,
+                                                    "is_parallel": true,
+                                                    "self": 1578.8802490082708,
+                                                    "children": {
+                                                        "UnityEnvironment._generate_step_input": {
+                                                            "total": 628.7949365940585,
+                                                            "count": 5000039,
+                                                            "is_parallel": true,
+                                                            "self": 628.7949365940585
+                                                        },
+                                                        "communicator.exchange": {
+                                                            "total": 15641.031775707102,
+                                                            "count": 5000039,
+                                                            "is_parallel": true,
+                                                            "self": 15641.031775707102
+                                                        },
+                                                        "steps_from_proto": {
+                                                            "total": 1836.1345462928948,
+                                                            "count": 5000039,
+                                                            "is_parallel": true,
+                                                            "self": 642.8563115077195,
+                                                            "children": {
+                                                                "_process_rank_one_or_two_observation": {
+                                                                    "total": 1193.2782347851753,
+                                                                    "count": 20000156,
+                                                                    "is_parallel": true,
+                                                                    "self": 1193.2782347851753
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "trainer_threads": {
+                    "total": 6.280000525293872e-05,
+                    "count": 1,
+                    "self": 6.280000525293872e-05,
+                    "children": {
+                        "thread_root": {
+                            "total": 0.0,
+                            "count": 0,
+                            "is_parallel": true,
+                            "self": 0.0,
+                            "children": {
+                                "trainer_advance": {
+                                    "total": 41153.03881070494,
+                                    "count": 2502105,
+                                    "is_parallel": true,
+                                    "self": 192.54146261845017,
+                                    "children": {
+                                        "process_trajectory": {
+                                            "total": 39434.85356288652,
+                                            "count": 2502105,
+                                            "is_parallel": true,
+                                            "self": 39430.78642378654,
+                                            "children": {
+                                                "RLTrainer._checkpoint": {
+                                                    "total": 4.067139099981432,
+                                                    "count": 20,
+                                                    "is_parallel": true,
+                                                    "self": 4.067139099981432
+                                                }
+                                            }
+                                        },
+                                        "_update_policy": {
+                                            "total": 1525.643785199969,
+                                            "count": 155,
+                                            "is_parallel": true,
+                                            "self": 180.10413500009963,
+                                            "children": {
+                                                "SpaceCleanerPPOOptimizer.update": {
+                                                    "total": 1345.5396501998694,
+                                                    "count": 7440,
+                                                    "is_parallel": true,
+                                                    "self": 1345.5396501998694
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "TrainerController._save_models": {
+                    "total": 0.22392549999494804,
+                    "count": 1,
+                    "self": 0.07326869999087648,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.15065680000407156,
+                            "count": 1,
+                            "self": 0.15065680000407156
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
