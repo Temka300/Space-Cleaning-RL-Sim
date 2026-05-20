@@ -12,6 +12,10 @@
 # Unity auto-generated asset folders
 Assets/AssetStoreTools*
 
+# Downloaded asset/source folders
+top-down-spaceship-master/
+top-down-space-master/
+
 # Screenshots and screen captures
 [Ss]creenshots/
 [Ss]creenshots.meta
