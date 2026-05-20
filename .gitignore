@@ -12,6 +12,55 @@
 # Unity auto-generated asset folders
 Assets/AssetStoreTools*
 
+# Screenshots and screen captures
+[Ss]creenshots/
+[Ss]creenshots.meta
+*[Ss]creenshot*/
+*[Ss]creenshot*.meta
+*[Ss]creenshot*.png
+*[Ss]creenshot*.jpg
+*[Ss]creenshot*.jpeg
+*[Ss]creenshot*.webp
+*[Ss]creenshot*.bmp
+*[Ss]creenshot*.tga
+*[Ss]creenshot*.exr
+*[Ss]creen[Ss]hot*/
+*[Ss]creen[Ss]hot*.meta
+*[Ss]creen[Ss]hot*.png
+*[Ss]creen[Ss]hot*.jpg
+*[Ss]creen[Ss]hot*.jpeg
+*[Ss]creen[Ss]hot*.webp
+*[Ss]creen[Ss]hot*.bmp
+*[Ss]creen[Ss]hot*.tga
+*[Ss]creen[Ss]hot*.exr
+*[Ss]creen [Ss]hot*/
+*[Ss]creen [Ss]hot*.meta
+*[Ss]creen [Ss]hot*.png
+*[Ss]creen [Ss]hot*.jpg
+*[Ss]creen [Ss]hot*.jpeg
+*[Ss]creen [Ss]hot*.webp
+*[Ss]creen [Ss]hot*.bmp
+*[Ss]creen [Ss]hot*.tga
+*[Ss]creen [Ss]hot*.exr
+*[Ss]creen[Cc]apture*/
+*[Ss]creen[Cc]apture*.meta
+*[Ss]creen[Cc]apture*.png
+*[Ss]creen[Cc]apture*.jpg
+*[Ss]creen[Cc]apture*.jpeg
+*[Ss]creen[Cc]apture*.webp
+*[Ss]creen[Cc]apture*.bmp
+*[Ss]creen[Cc]apture*.tga
+*[Ss]creen[Cc]apture*.exr
+*[Ss]creen [Cc]apture*/
+*[Ss]creen [Cc]apture*.meta
+*[Ss]creen [Cc]apture*.png
+*[Ss]creen [Cc]apture*.jpg
+*[Ss]creen [Cc]apture*.jpeg
+*[Ss]creen [Cc]apture*.webp
+*[Ss]creen [Cc]apture*.bmp
+*[Ss]creen [Cc]apture*.tga
+*[Ss]creen [Cc]apture*.exr
+
 # Unity crash and profiler output
 sysinfo.txt
 *.stackdump
