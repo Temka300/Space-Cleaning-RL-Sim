@@ -28,9 +28,13 @@ public class SpaceCleaningAgent : Agent
     public float planetProximityPenaltyScale = -0.001f;
     public float planetProximityThreshold = 6f;
 
+    [Header("Fuel")]
+    [Tooltip("Reward on picking up a canister, scaled by how empty the tank was.")]
+    public float refuelReward = 0.5f;
+
     [Header("Close-Range Precision")]
     public float precisionApproachThreshold = 3.0f;
-    public float precisionApproachRewardScale = 0.01f;
+    public float closeOverspeedPenaltyScale = -0.01f;
     public float closeLateralPenaltyScale = -0.004f;
 
     [Header("Normalization")]
@@ -186,17 +190,16 @@ public class SpaceCleaningAgent : Agent
         if (environmentManager != null && environmentManager.enableGravity)
         {
             netGrav = environmentManager.ComputeNetGravity(transform.position);
-            float strongestPull;
-            GravitySource strongest = environmentManager.FindStrongestSource(
-                transform.position, out strongestPull);
-            if (strongest != null)
+            EnvironmentManager.PlanetInfo planet =
+                environmentManager.GetNearestPlanet(transform.position);
+            if (planet.valid)
             {
-                Vector3 toS = strongest.transform.position - transform.position;
+                Vector3 toS = planet.center - transform.position;
                 toS.y = 0f;
-                strongestDistRatio = Mathf.Clamp01(toS.magnitude / diagonal);
+                strongestDistRatio = Mathf.Clamp01(Mathf.Max(0f, planet.surfaceDistance) / diagonal);
                 toStrongest = toS;
                 strongestPullRatio = Mathf.Clamp01(
-                    strongestPull / Mathf.Max(0.001f, maxObsGravity));
+                    planet.pull / Mathf.Max(0.001f, maxObsGravity));
             }
         }
 
@@ -209,6 +212,25 @@ public class SpaceCleaningAgent : Agent
             toStrongest.z / (2f * Mathf.Max(1f, arenaHalfZ)), -1f, 1f));
         sensor.AddObservation(strongestDistRatio);
         sensor.AddObservation(strongestPullRatio);
+
+        // Fuel: current ratio + vector/distance to nearest canister.
+        sensor.AddObservation(rocketMovement != null ? rocketMovement.FuelRatio : 1f);
+        Transform nearestFuel =
+            environmentManager != null ? environmentManager.GetNearestFuel(transform.position) : null;
+        if (nearestFuel != null)
+        {
+            Vector3 toFuel = nearestFuel.position - transform.position;
+            sensor.AddObservation(Mathf.Clamp(toFuel.x / (2f * Mathf.Max(1f, arenaHalfX)), -1f, 1f));
+            sensor.AddObservation(Mathf.Clamp(toFuel.z / (2f * Mathf.Max(1f, arenaHalfZ)), -1f, 1f));
+            Vector3 toFuelFlat = new Vector3(toFuel.x, 0f, toFuel.z);
+            sensor.AddObservation(Mathf.Clamp01(toFuelFlat.magnitude / diagonal));
+        }
+        else
+        {
+            sensor.AddObservation(0f);
+            sensor.AddObservation(0f);
+            sensor.AddObservation(1f);
+        }
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -276,12 +298,16 @@ public class SpaceCleaningAgent : Agent
                 {
                     float proximityFactor = 1f - (currentDist / precisionApproachThreshold);
 
-                    float precisionBonus = normalizedClosing * (1f - normalizedLateral) * proximityFactor;
-                    AddRewardWithMetric(precisionBonus * precisionApproachRewardScale, "Rewards/PrecisionApproach");
+                    // Want LOW, controlled speed near the target so it brakes instead of overshooting.
+                    float speedHere = flatVelocity.magnitude;
+                    float allowedSpeed = maxObsSpeed * (currentDist / precisionApproachThreshold); // -> 0 at contact
+                    float overspeed = Mathf.Clamp01(Mathf.Max(0f, speedHere - allowedSpeed) / Mathf.Max(0.001f, maxObsSpeed));
+                    AddRewardWithMetric(overspeed * proximityFactor * closeOverspeedPenaltyScale, "Rewards/CloseOverspeed");
 
                     AddRewardWithMetric(normalizedLateral * proximityFactor * closeLateralPenaltyScale, "Rewards/CloseLateralPenalty");
 
                     RecordMetric("Target/PrecisionProximityFactor", proximityFactor);
+                    RecordMetric("Target/CloseOverspeed", overspeed);
                 }
             }
         }
@@ -329,22 +355,25 @@ public class SpaceCleaningAgent : Agent
             }
         }
 
-        if (planetProximityPenaltyScale < 0f
-            && environmentManager != null
-            && environmentManager.enableGravity)
+        if (environmentManager != null
+            && environmentManager.enableGravity
+            && environmentManager.HasPlanets)
         {
-            float sPull;
-            GravitySource strongest = environmentManager.FindStrongestSource(
-                transform.position, out sPull);
-            if (strongest != null)
-            {
-                Vector3 toPlanet = strongest.transform.position - transform.position;
-                toPlanet.y = 0f;
-                float distToPlanet = toPlanet.magnitude;
+            EnvironmentManager.PlanetInfo planet =
+                environmentManager.GetNearestPlanet(transform.position);
 
-                if (distToPlanet < planetProximityThreshold && distToPlanet > 0.001f)
+            if (planet.valid)
+            {
+                if (planetProximityPenaltyScale < 0f
+                    && planet.surfaceDistance < planetProximityThreshold)
                 {
-                    float penaltyStrength = 1f - (distToPlanet / planetProximityThreshold);
+                    float surf = Mathf.Max(0f, planet.surfaceDistance);
+                    float penaltyStrength = 1f - (surf / planetProximityThreshold);
+
+                    Vector3 toPlanet = planet.center - transform.position;
+                    toPlanet.y = 0f;
+                    float distToPlanet = toPlanet.magnitude;
+                    Vector3 toPlanetN = distToPlanet > 0.001f ? toPlanet / distToPlanet : Vector3.zero;
 
                     Vector3 planetVel =
 #if UNITY_6000_0_OR_NEWER
@@ -352,7 +381,6 @@ public class SpaceCleaningAgent : Agent
 #else
                         rb.velocity;
 #endif
-                    Vector3 toPlanetN = toPlanet / distToPlanet;
                     float velTowardPlanet = Vector3.Dot(
                         new Vector3(planetVel.x, 0f, planetVel.z), toPlanetN);
 
@@ -365,7 +393,7 @@ public class SpaceCleaningAgent : Agent
                     }
 
                     RecordMetric("Movement/VelocityTowardPlanet", velTowardPlanet);
-                    RecordMetric("Movement/MinPlanetDistance", distToPlanet);
+                    RecordMetric("Movement/MinPlanetDistance", planet.surfaceDistance);
                 }
             }
         }
@@ -381,7 +409,8 @@ public class SpaceCleaningAgent : Agent
 #else
         float speed = rb.velocity.magnitude;
 #endif
-        if (speed < idleSpeedThreshold)
+        bool nearTargetForIdle = currentDist > 0f && currentDist < precisionApproachThreshold;
+        if (speed < idleSpeedThreshold && !nearTargetForIdle)
         {
             idleStepsThisEpisode++;
             AddRewardWithMetric(idlePenalty, "Rewards/IdlePenalty");
@@ -417,6 +446,13 @@ public class SpaceCleaningAgent : Agent
             RecordMetric("Debris/Collected", 1f, StatAggregationMethod.Sum);
             RecordMetric("Debris/Remaining", environmentManager.RemainingDebris);
             prevNearestDist = DistanceToNearest();
+        }
+        else if (other.CompareTag("Fuel"))
+        {
+            float before = rocketMovement != null ? rocketMovement.FuelRatio : 1f;
+            environmentManager.RefuelFromCanister(other.gameObject, rocketMovement);
+            AddRewardWithMetric(refuelReward * (1f - before), "Rewards/Refuel");
+            RecordMetric("Fuel/Pickups", 1f, StatAggregationMethod.Sum);
         }
         else if (other.CompareTag("Boundary"))
         {
@@ -516,15 +552,12 @@ public class SpaceCleaningAgent : Agent
         {
             Vector3 grav = environmentManager.ComputeNetGravity(transform.position);
             RecordMetric("Gravity/NetMagnitude", grav.magnitude);
-            float sPull;
-            GravitySource strongest = environmentManager.FindStrongestSource(
-                transform.position, out sPull);
-            if (strongest != null)
+            EnvironmentManager.PlanetInfo planet =
+                environmentManager.GetNearestPlanet(transform.position);
+            if (planet.valid)
             {
-                RecordMetric("Gravity/StrongestPull", sPull);
-                Vector3 toS = strongest.transform.position - transform.position;
-                toS.y = 0f;
-                RecordMetric("Gravity/StrongestDistance", toS.magnitude);
+                RecordMetric("Gravity/StrongestPull", planet.pull);
+                RecordMetric("Gravity/StrongestDistance", planet.surfaceDistance);
             }
         }
     }

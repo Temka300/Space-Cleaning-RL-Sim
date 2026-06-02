@@ -14,6 +14,8 @@ public class GravitySource : MonoBehaviour
     public float influenceRange = 30f;
     public float minimumDistance = 1f;
     public GravityFalloffMode falloffMode = GravityFalloffMode.InverseSquare;
+    [Tooltip("Keeps legacy top-down gravity behavior. Disable for scenes that use vertical/Y-axis gameplay.")]
+    public bool ignoreVerticalOffset = true;
 
     [Header("Spawning")]
     [Tooltip("Debris and agent will not spawn within this radius.")]
@@ -22,7 +24,8 @@ public class GravitySource : MonoBehaviour
     public Vector3 ComputeAcceleration(Vector3 targetPosition, float gravityConstant)
     {
         Vector3 delta = transform.position - targetPosition;
-        delta.y = 0f;
+        if (ignoreVerticalOffset)
+            delta.y = 0f;
         float distance = delta.magnitude;
 
         if (distance > influenceRange)

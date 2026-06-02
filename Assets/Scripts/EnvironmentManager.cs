@@ -17,6 +17,13 @@ public class EnvironmentManager : MonoBehaviour
     [Tooltip("Inset from arena edges where debris will not spawn.")]
     public float spawnMargin = 1.5f;
 
+    [Header("Fuel Canisters")]
+    [Tooltip("PropellantCanister prefab the rocket refuels from. If null, no canisters spawn.")]
+    public GameObject fuelCanisterPrefab;
+    [Min(0)] public int fuelCanisterCount = 3;
+    [Range(0f, 1f)] public float fuelDriftingRatio = 0f;
+    public Vector2 fuelScaleRange = new Vector2(1f, 1f);
+
     [Header("Arena Settings")]
     public bool matchCameraView = true;
     public float arenaHalfSize = 9f;
@@ -39,11 +46,21 @@ public class EnvironmentManager : MonoBehaviour
     public Rigidbody playerRigidbody;
     public List<GravitySource> gravitySources = new List<GravitySource>();
 
+    [Header("NBody Planets")]
+    [Tooltip("NBodyCelestialBody planets used for observations / penalties / contact. Auto-discovered if empty.")]
+    public List<NBodyCelestialBody> nbodyPlanets = new List<NBodyCelestialBody>();
+    [Tooltip("Falloff mode used when sampling NBody gravity for observations.")]
+    public GravityMode nbodyGravityMode = GravityMode.Surface;
+    public float nbodyGravityStrength = 1f;
+    [Tooltip("Extra clearance added to a planet radius for debris/agent spawn exclusion.")]
+    public float planetSpawnClearance = 2f;
+
     [Header("Boundary Source")]
     [Tooltip("If assigned, only colliders under this transform are used for arena logic.")]
     public Transform boundaryRoot;
 
     private List<SpaceDebris> activeDebris = new List<SpaceDebris>();
+    private readonly List<PropellantCanister> activeFuel = new List<PropellantCanister>();
     private readonly List<Collider> boundaryColliders = new List<Collider>();
     private RocketMovement playerMovement;
     private int defaultDebrisCount;
@@ -59,7 +76,21 @@ public class EnvironmentManager : MonoBehaviour
     private float arenaMinZ;
     private float arenaMaxZ;
 
+    public struct PlanetInfo
+    {
+        public bool valid;
+        public Vector3 center;
+        public float radius;
+        public float surfaceDistance;
+        public float pull;
+    }
+
+    public bool HasPlanets =>
+        (gravitySources != null && gravitySources.Count > 0)
+        || (nbodyPlanets != null && nbodyPlanets.Count > 0);
+
     public int RemainingDebris => activeDebris.Count;
+    public int RemainingFuelCanisters => activeFuel.Count;
     public float ArenaMinX => arenaMinX;
     public float ArenaMaxX => arenaMaxX;
     public float ArenaMinZ => arenaMinZ;
@@ -75,6 +106,7 @@ public class EnvironmentManager : MonoBehaviour
         AutoAssignBoundaryRoot();
         RefreshBoundaryColliders();
         AutoDiscoverGravitySources();
+        AutoDiscoverNBodyPlanets();
         if (playerRigidbody != null)
             playerMovement = playerRigidbody.GetComponent<RocketMovement>();
     }
@@ -88,16 +120,19 @@ public class EnvironmentManager : MonoBehaviour
     {
         if (!enableGravity || gravitySources.Count == 0) return;
 
+        // Only legacy GravitySource gravity is applied here. NBody gravity on the
+        // rocket is applied by its own NBodyGravityReceiver, so applying it again
+        // here would double-count it.
         if (playerMovement != null)
         {
-            Vector3 accel = ComputeNetGravity(playerRigidbody.position);
+            Vector3 accel = ComputeLegacyGravity(playerRigidbody.position);
             playerMovement.SetExternalAcceleration(accel);
         }
 
         foreach (var sd in activeDebris)
         {
             if (sd == null || sd.Rb == null || sd.Rb.isKinematic) continue;
-            Vector3 accel = ComputeNetGravity(sd.transform.position);
+            Vector3 accel = ComputeLegacyGravity(sd.transform.position);
             sd.Rb.AddForce(accel, ForceMode.Acceleration);
         }
     }
@@ -115,6 +150,7 @@ public class EnvironmentManager : MonoBehaviour
     public void SpawnDebris(Vector3 avoidWorldPosition)
     {
         ClearDebris();
+        ClearFuelCanisters();
 
         float sMinX = arenaMinX + spawnMargin;
         float sMaxX = arenaMaxX - spawnMargin;
@@ -167,6 +203,25 @@ public class EnvironmentManager : MonoBehaviour
                         spawnWorldPos.z = Mathf.Clamp(spawnWorldPos.z, sMinZ, sMaxZ);
                     }
                 }
+
+                foreach (var p in nbodyPlanets)
+                {
+                    if (p == null) continue;
+                    float exclusion = p.radius + planetSpawnClearance;
+                    Vector2 pOffset = new Vector2(
+                        spawnWorldPos.x - p.transform.position.x,
+                        spawnWorldPos.z - p.transform.position.z);
+                    if (pOffset.magnitude < exclusion)
+                    {
+                        if (pOffset.sqrMagnitude < 0.0001f)
+                            pOffset = Random.insideUnitCircle;
+                        pOffset = pOffset.normalized * exclusion;
+                        spawnWorldPos.x = p.transform.position.x + pOffset.x;
+                        spawnWorldPos.z = p.transform.position.z + pOffset.y;
+                        spawnWorldPos.x = Mathf.Clamp(spawnWorldPos.x, sMinX, sMaxX);
+                        spawnWorldPos.z = Mathf.Clamp(spawnWorldPos.z, sMinZ, sMaxZ);
+                    }
+                }
             }
 
             GameObject prefab = GetRandomDebrisPrefab();
@@ -205,6 +260,113 @@ public class EnvironmentManager : MonoBehaviour
                 activeDebris.Add(sd);
             }
         }
+
+        SpawnFuelCanisters(avoidWorldPosition);
+    }
+
+    private void SpawnFuelCanisters(Vector3 avoidWorldPosition)
+    {
+        if (fuelCanisterPrefab == null || fuelCanisterCount <= 0) return;
+
+        float sMinX = arenaMinX + spawnMargin;
+        float sMaxX = arenaMaxX - spawnMargin;
+        float sMinZ = arenaMinZ + spawnMargin;
+        float sMaxZ = arenaMaxZ - spawnMargin;
+        if (sMinX > sMaxX) { sMinX = sMaxX = (arenaMinX + arenaMaxX) * 0.5f; }
+        if (sMinZ > sMaxZ) { sMinZ = sMaxZ = (arenaMinZ + arenaMaxZ) * 0.5f; }
+
+        for (int i = 0; i < fuelCanisterCount; i++)
+        {
+            Vector3 spawnWorldPos = new Vector3(
+                Random.Range(sMinX, sMaxX),
+                transform.position.y + 0.5f,
+                Random.Range(sMinZ, sMaxZ));
+
+            Vector2 offset = new Vector2(
+                spawnWorldPos.x - avoidWorldPosition.x,
+                spawnWorldPos.z - avoidWorldPosition.z);
+            if (offset.magnitude < 2f)
+            {
+                if (offset.sqrMagnitude < 0.0001f) offset = Random.insideUnitCircle;
+                offset = offset.normalized * 2f;
+                spawnWorldPos.x = Mathf.Clamp(avoidWorldPosition.x + offset.x, sMinX, sMaxX);
+                spawnWorldPos.z = Mathf.Clamp(avoidWorldPosition.z + offset.y, sMinZ, sMaxZ);
+            }
+
+            if (enableGravity)
+            {
+                foreach (var gs in gravitySources)
+                {
+                    if (gs == null) continue;
+                    Vector2 gsOffset = new Vector2(
+                        spawnWorldPos.x - gs.transform.position.x,
+                        spawnWorldPos.z - gs.transform.position.z);
+                    if (gsOffset.magnitude < gs.spawnExclusionRadius)
+                    {
+                        if (gsOffset.sqrMagnitude < 0.0001f) gsOffset = Random.insideUnitCircle;
+                        gsOffset = gsOffset.normalized * gs.spawnExclusionRadius;
+                        spawnWorldPos.x = Mathf.Clamp(gs.transform.position.x + gsOffset.x, sMinX, sMaxX);
+                        spawnWorldPos.z = Mathf.Clamp(gs.transform.position.z + gsOffset.y, sMinZ, sMaxZ);
+                    }
+                }
+            }
+
+            GameObject obj = Instantiate(fuelCanisterPrefab, transform);
+            obj.transform.position = spawnWorldPos;
+
+            float minScale = Mathf.Min(fuelScaleRange.x, fuelScaleRange.y);
+            float maxScale = Mathf.Max(fuelScaleRange.x, fuelScaleRange.y);
+            float scale = Random.Range(minScale, maxScale);
+            obj.transform.localScale = Vector3.Scale(obj.transform.localScale, Vector3.one * scale);
+
+            PropellantCanister pc = obj.GetComponent<PropellantCanister>();
+            if (pc != null)
+            {
+                pc.SetBounds(arenaMinX, arenaMaxX, arenaMinZ, arenaMaxZ);
+                if (Random.value < fuelDriftingRatio)
+                {
+                    Vector3 drift = new Vector3(
+                        Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f)
+                    ).normalized * Random.Range(0.5f, maxDriftSpeed);
+                    pc.SetDriftVelocity(drift);
+                }
+                else
+                {
+                    pc.MakeStatic();
+                }
+                activeFuel.Add(pc);
+            }
+        }
+    }
+
+    public void ClearFuelCanisters()
+    {
+        foreach (var pc in activeFuel)
+            if (pc != null) Destroy(pc.gameObject);
+        activeFuel.Clear();
+    }
+
+    public Transform GetNearestFuel(Vector3 position)
+    {
+        Transform nearest = null;
+        float minDist = float.MaxValue;
+        foreach (var pc in activeFuel)
+        {
+            if (pc == null) continue;
+            float dist = Vector3.Distance(position, pc.transform.position);
+            if (dist < minDist) { minDist = dist; nearest = pc.transform; }
+        }
+        return nearest;
+    }
+
+    public bool RefuelFromCanister(GameObject canister, RocketMovement rocket)
+    {
+        PropellantCanister pc = canister.GetComponent<PropellantCanister>();
+        if (pc == null) return false;
+        bool ok = pc.ApplyTo(rocket);
+        activeFuel.Remove(pc);
+        Destroy(pc.gameObject);
+        return ok;
     }
 
     private GameObject GetRandomDebrisPrefab()
@@ -503,7 +665,27 @@ public class EnvironmentManager : MonoBehaviour
         return true;
     }
 
+    // Combined gravity (legacy GravitySource + NBody planets). Read-only: used for
+    // observations and metrics, not for applying force.
     public Vector3 ComputeNetGravity(Vector3 position)
+    {
+        if (!enableGravity) return Vector3.zero;
+        Vector3 net = ComputeLegacyGravity(position);
+        if (nbodyPlanets != null)
+        {
+            foreach (var p in nbodyPlanets)
+            {
+                if (p == null) continue;
+                net += NBodyGravity.Calculate(
+                    position, p.transform.position, p.mass, p.radius,
+                    nbodyGravityMode, nbodyGravityStrength);
+            }
+        }
+        return net;
+    }
+
+    // Only legacy GravitySource contributions. Applied as force in FixedUpdate.
+    public Vector3 ComputeLegacyGravity(Vector3 position)
     {
         if (!enableGravity) return Vector3.zero;
         Vector3 net = Vector3.zero;
@@ -513,6 +695,54 @@ public class EnvironmentManager : MonoBehaviour
             net += gs.ComputeAcceleration(position, gravityConstant);
         }
         return net;
+    }
+
+    // Nearest planet by surface distance, across both gravity systems.
+    // surfaceDistance is negative when the point is inside the planet radius.
+    public PlanetInfo GetNearestPlanet(Vector3 position)
+    {
+        PlanetInfo best = new PlanetInfo { valid = false, surfaceDistance = float.PositiveInfinity };
+        if (!enableGravity) return best;
+
+        if (nbodyPlanets != null)
+        {
+            foreach (var p in nbodyPlanets)
+            {
+                if (p == null) continue;
+                Vector3 c = p.transform.position;
+                Vector3 d = c - position; d.y = 0f;
+                float surf = d.magnitude - p.radius;
+                if (surf < best.surfaceDistance)
+                {
+                    best.valid = true;
+                    best.center = c;
+                    best.radius = p.radius;
+                    best.surfaceDistance = surf;
+                    best.pull = NBodyGravity.Calculate(
+                        position, c, p.mass, p.radius,
+                        nbodyGravityMode, nbodyGravityStrength).magnitude;
+                }
+            }
+        }
+
+        foreach (var gs in gravitySources)
+        {
+            if (gs == null) continue;
+            Vector3 c = gs.transform.position;
+            Vector3 d = c - position; d.y = 0f;
+            float r = gs.minimumDistance;
+            float surf = d.magnitude - r;
+            if (surf < best.surfaceDistance)
+            {
+                best.valid = true;
+                best.center = c;
+                best.radius = r;
+                best.surfaceDistance = surf;
+                best.pull = gs.ComputeAcceleration(position, gravityConstant).magnitude;
+            }
+        }
+
+        return best;
     }
 
     public GravitySource FindStrongestSource(Vector3 position, out float strongestPull)
@@ -539,6 +769,16 @@ public class EnvironmentManager : MonoBehaviour
         Transform gsRoot = transform.Find("GravitySources");
         if (gsRoot != null)
             gravitySources.AddRange(gsRoot.GetComponentsInChildren<GravitySource>());
+    }
+
+    private void AutoDiscoverNBodyPlanets()
+    {
+        if (nbodyPlanets.Count > 0) return;
+#if UNITY_6000_0_OR_NEWER
+        nbodyPlanets.AddRange(FindObjectsByType<NBodyCelestialBody>(FindObjectsSortMode.None));
+#else
+        nbodyPlanets.AddRange(FindObjectsOfType<NBodyCelestialBody>());
+#endif
     }
 
     private void UpdateArenaFromCamera()

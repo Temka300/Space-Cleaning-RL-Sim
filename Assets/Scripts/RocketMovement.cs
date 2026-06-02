@@ -15,9 +15,35 @@ public class RocketMovement : MonoBehaviour
     public float maxAngularSpeed = 2f;
     public float maxLinearSpeed = 8f;
 
+    [Header("3D Movement")]
+    [Tooltip("Acceleration used for optional vertical thrust. Only used by callers that pass a vertical input.")]
+    public float verticalThrustForce = 10f;
+
+    [Header("Auto Height")]
+    [Tooltip("Automatically applies vertical thrust to match a target's Y height when close enough.")]
+    public bool enableAutoHeightAssist = false;
+    public Transform autoHeightTarget;
+    public float autoHeightRange = 60f;
+    public float autoHeightGain = 0.04f;
+    public float autoHeightDeadZone = 1f;
+    public bool autoHeightUsesPlanarDistance = true;
+
     [Header("Space Feel")]
-    public float linearDamping = 0.05f;
+    public float linearDamping = 1.0f;   // coast-down braking (no reverse); per-scene value overrides this
     public float angularDamping = 2f;
+
+    [Header("Fuel")]
+    [Tooltip("When enabled, forward thrust consumes fuel and stops when empty.")]
+    public bool enableFuel = false;
+    public float maxFuel = 100f;
+    [Tooltip("Fuel units consumed per second at full thrust.")]
+    public float fuelBurnPerSecond = 8f;
+    [SerializeField] private float currentFuel = 100f;
+
+    public float MaxFuel => maxFuel;
+    public float CurrentFuel => currentFuel;
+    public float FuelRatio => maxFuel > 0.0001f ? Mathf.Clamp01(currentFuel / maxFuel) : 1f;
+    public bool IsOutOfFuel => enableFuel && currentFuel <= 0f;
 
     [Header("Adaptive Rotation")]
     [Tooltip("When facing away from desired heading, how much thrust is allowed (0-1).")]
@@ -30,12 +56,14 @@ public class RocketMovement : MonoBehaviour
     private Rigidbody rb;
     private float thrustInput;
     private float turnInput;
+    private float verticalInput;
     private Vector3 directionInput;
     private bool useDirectionInput;
     private Vector3 externalAcceleration;
 
     public float ThrustInput => thrustInput;
     public float TurnInput => turnInput;
+    public float VerticalInput => verticalInput;
     public Vector3 LinearVelocity =>
 #if UNITY_6000_0_OR_NEWER
         rb != null ? rb.linearVelocity : Vector3.zero;
@@ -49,12 +77,29 @@ public class RocketMovement : MonoBehaviour
         externalAcceleration = accel;
     }
 
+    public void SetAutoHeightTarget(Transform target)
+    {
+        autoHeightTarget = target;
+    }
+
+    public void Refuel(float amount)
+    {
+        currentFuel = Mathf.Clamp(currentFuel + amount, 0f, maxFuel);
+    }
+
+    public void RefuelFull()
+    {
+        currentFuel = maxFuel;
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         rb.linearDamping = linearDamping;
         rb.angularDamping = angularDamping;
+        rb.inertiaTensor = Vector3.one;
+        currentFuel = maxFuel;
 
         if (exhaustTrails != null)
         {
@@ -71,8 +116,14 @@ public class RocketMovement : MonoBehaviour
 
     public void MoveRocket(float thrust, float rotation)
     {
+        MoveRocket(thrust, rotation, 0f);
+    }
+
+    public void MoveRocket(float thrust, float rotation, float vertical)
+    {
         thrustInput = Mathf.Clamp(thrust, -1f, 1f);
         turnInput = Mathf.Clamp(rotation, -1f, 1f);
+        verticalInput = Mathf.Clamp(vertical, -1f, 1f);
         useDirectionInput = false;
     }
 
@@ -89,6 +140,7 @@ public class RocketMovement : MonoBehaviour
     {
         float thrustOut = thrustInput;
         float torqueOut = turnInput;
+        float verticalOut = verticalInput;
 
         if (movementType == RocketMovementType.AdaptiveRotation && useDirectionInput)
         {
@@ -108,9 +160,34 @@ public class RocketMovement : MonoBehaviour
             }
             thrustInput = thrustOut;
             turnInput = torqueOut;
+            verticalOut = 0f;
+            verticalInput = 0f;
         }
 
-        bool boosting = thrustOut > trailOnThreshold;
+        if (enableAutoHeightAssist)
+        {
+            verticalOut = GetAutoHeightInput(verticalOut);
+            verticalInput = verticalOut;
+        }
+
+        if (enableFuel)
+        {
+            if (currentFuel <= 0f)
+            {
+                currentFuel = 0f;
+                thrustOut = 0f; // out of fuel: no thrust, rotation (reaction wheels) still allowed
+            }
+            else
+            {
+                float burnInput = Mathf.Max(Mathf.Abs(thrustOut), Mathf.Abs(verticalOut));
+                float burn = burnInput * fuelBurnPerSecond * Time.fixedDeltaTime;
+                currentFuel = Mathf.Max(0f, currentFuel - burn);
+            }
+            thrustInput = thrustOut;
+            verticalInput = verticalOut;
+        }
+
+        bool boosting = thrustOut > trailOnThreshold || Mathf.Abs(verticalOut) > trailOnThreshold;
         if (exhaustTrails != null)
         {
             for (int i = 0; i < exhaustTrails.Length; i++)
@@ -118,6 +195,7 @@ public class RocketMovement : MonoBehaviour
         }
 
         rb.AddForce(transform.forward * thrustOut * thrustForce, ForceMode.Acceleration);
+        rb.AddForce(Vector3.up * verticalOut * verticalThrustForce, ForceMode.Acceleration);
         rb.AddTorque(Vector3.up * torqueOut * turnTorque, ForceMode.Acceleration);
 
 #if UNITY_6000_0_OR_NEWER
@@ -171,8 +249,29 @@ public class RocketMovement : MonoBehaviour
 
         thrustInput = 0f;
         turnInput = 0f;
+        verticalInput = 0f;
         directionInput = Vector3.zero;
         useDirectionInput = false;
         externalAcceleration = Vector3.zero;
+        autoHeightTarget = null;
+        currentFuel = maxFuel;
+    }
+
+    private float GetAutoHeightInput(float fallbackInput)
+    {
+        if (autoHeightTarget == null)
+            return fallbackInput;
+
+        Vector3 toTarget = autoHeightTarget.position - transform.position;
+        float approachDistance = autoHeightUsesPlanarDistance
+            ? new Vector2(toTarget.x, toTarget.z).magnitude
+            : toTarget.magnitude;
+        if (approachDistance > Mathf.Max(0f, autoHeightRange))
+            return fallbackInput;
+
+        if (Mathf.Abs(toTarget.y) <= Mathf.Max(0f, autoHeightDeadZone))
+            return 0f;
+
+        return Mathf.Clamp(toTarget.y * autoHeightGain, -1f, 1f);
     }
 }

@@ -8,9 +8,12 @@ public class SpaceDebris : MonoBehaviour
 
     private float minX;
     private float maxX;
+    private float minY;
+    private float maxY;
     private float minZ;
     private float maxZ;
     private bool hasBounds;
+    private bool hasVerticalBounds;
 
     void Awake()
     {
@@ -48,6 +51,19 @@ public class SpaceDebris : MonoBehaviour
         maxX = maxXWorld;
         minZ = minZWorld;
         maxZ = maxZWorld;
+        hasVerticalBounds = false;
+        hasBounds = true;
+    }
+
+    public void SetBounds(float minXWorld, float maxXWorld, float minYWorld, float maxYWorld, float minZWorld, float maxZWorld)
+    {
+        minX = minXWorld;
+        maxX = maxXWorld;
+        minY = minYWorld;
+        maxY = maxYWorld;
+        minZ = minZWorld;
+        maxZ = maxZWorld;
+        hasVerticalBounds = true;
         hasBounds = true;
     }
 
@@ -65,6 +81,11 @@ public class SpaceDebris : MonoBehaviour
         Vector3 pos = transform.position;
         if (pos.x > maxX && v.x > 0f) { v.x = -v.x; changed = true; }
         else if (pos.x < minX && v.x < 0f) { v.x = -v.x; changed = true; }
+        if (hasVerticalBounds)
+        {
+            if (pos.y > maxY && v.y > 0f) { v.y = -v.y; changed = true; }
+            else if (pos.y < minY && v.y < 0f) { v.y = -v.y; changed = true; }
+        }
         if (pos.z > maxZ && v.z > 0f) { v.z = -v.z; changed = true; }
         else if (pos.z < minZ && v.z < 0f) { v.z = -v.z; changed = true; }
 
@@ -76,6 +97,8 @@ public class SpaceDebris : MonoBehaviour
             rb.velocity = v;
 #endif
             pos.x = Mathf.Clamp(pos.x, minX, maxX);
+            if (hasVerticalBounds)
+                pos.y = Mathf.Clamp(pos.y, minY, maxY);
             pos.z = Mathf.Clamp(pos.z, minZ, maxZ);
             transform.position = pos;
         }
